@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { readMarkdownFile, getGPTInstructions } = require('./utils');
+const { readMarkdownFile, getGPTInstructions, scanFolder } = require('./utils');
+const log = require('electron-log');
+
 
 async function createWindow() {
   const isDev = (await import('electron-is-dev')).default;
@@ -19,7 +21,7 @@ async function createWindow() {
   win.loadURL(
     isDev
       ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`
+      : `file://${path.join(__dirname, 'build/index.html')}`
   );
 
   if (isDev) {
@@ -70,3 +72,10 @@ ipcMain.handle('get-gpt-instructions', async (event, fileTree) => {
   const instructions = await getGPTInstructions(fileTree);
   return instructions;
 });
+
+ipcMain.handle('scan-folder', async (event, folderPath, depth) => {
+  const fileTree = scanFolder(folderPath, depth);
+  log.info('File tree sent to renderer:', JSON.stringify(fileTree, null, 2)); // Add logging here
+  return fileTree;
+});
+

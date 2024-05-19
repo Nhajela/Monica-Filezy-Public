@@ -7,13 +7,44 @@ import './components.scss';
 const { TextArea } = Input;
 
 const TestGPT = () => {
-  const [fileTree, setFileTree] = useState('');
+  const [folderPath, setFolderPath] = useState('');
+  const [fileTree, setFileTree] = useState(null);
   const [response, setResponse] = useState(null);
   const navigate = useNavigate();
 
+  const handleFolderSelect = async () => {
+    const folder = await window.electron.selectFolder();
+    if (folder) {
+      setFolderPath(folder);
+    }
+  };
+
+  const handleScanFolder = async () => {
+    if (!folderPath) {
+      notification.error({
+        message: 'Error',
+        description: 'Please select a folder first.',
+      });
+      return;
+    }
+
+    const depth = 2; // Set your desired depth here or fetch from settings
+    const scannedTree = await window.electron.scanFolder(folderPath, depth);
+    console.log('Scanned file tree:', scannedTree); // Add logging here
+    setFileTree(scannedTree);
+  };
+
   const handleTest = async () => {
+    if (!fileTree) {
+      notification.error({
+        message: 'Error',
+        description: 'Please scan the folder first.',
+      });
+      return;
+    }
+
     try {
-      const instructions = await window.electron.getGPTInstructions(fileTree);
+      const instructions = await window.electron.getGPTInstructions(JSON.stringify(fileTree, null, 2));
       if (instructions) {
         notification.success({
           message: 'Success',
@@ -46,15 +77,21 @@ const TestGPT = () => {
         Back
       </Button>
       <h2>Test GPT Instructions</h2>
-      <TextArea
-        value={fileTree}
-        onChange={e => setFileTree(e.target.value)}
-        placeholder="Enter your file tree"
-        rows={4}
-        style={{ marginTop: '10px', marginBottom: '20px' }}
-      />
+      <Button type="primary" onClick={handleFolderSelect} style={{ marginBottom: '20px' }}>
+        Select Folder
+      </Button>
+      {folderPath && <p>Selected Folder: {folderPath}</p>}
+      <Button type="primary" onClick={handleScanFolder} style={{ marginBottom: '20px' }}>
+        Scan Folder
+      </Button>
+      {fileTree && (
+        <div>
+          <h3>File Tree:</h3>
+          <pre>{JSON.stringify(fileTree, null, 2)}</pre>
+        </div>
+      )}
       <Button type="primary" onClick={handleTest} style={{ marginBottom: '20px' }}>
-        Test
+        Get GPT Instructions
       </Button>
       {response && (
         <div>
