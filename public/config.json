@@ -1,0 +1,10 @@
+{
+    "presets": [
+      { "id": 1, "name": "preset 1", "custom_instruction": "instruction 1" },
+      { "id": 2, "name": "preset 2", "custom_instruction": "instruction 2" },
+      { "id": 3, "name": "preset 3", "custom_instruction": "instruction 3" },
+      { "id": 4, "name": "preset 4", "custom_instruction": "instruction 4" }
+    ],
+    "default_preset": 1
+  }
+  

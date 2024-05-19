@@ -1,0 +1,44 @@
+/* Organise.css */
+.organise-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .ant-input, .ant-select, .ant-checkbox {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 10px;
+  }
+  
+  .ant-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .ant-checkbox + span {
+    margin-left: 8px;
+  }
+  
+  .ant-btn-primary {
+    background-color: #fadb14;
+    border-color: #fadb14;
+    color: black;
+  }
+  
+  .ant-btn-primary:hover, .ant-btn-primary:focus {
+    background-color: #e6b800;
+    border-color: #e6b800;
+    color: black;
+  }
+  
