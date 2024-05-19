@@ -6,7 +6,7 @@ import sparkleIcon from '../assets/sparkle-icon.svg';
 import settingsIcon from '../assets/settings-icon.svg';
 import contactIcon from '../assets/contact-icon.svg';
 import girlImage from '../assets/girl.png';
-import './Home.css';
+import './components.scss';
 
 const Home = () => (
   <div className="home-container">

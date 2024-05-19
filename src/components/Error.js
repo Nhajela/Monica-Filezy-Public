@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import girlImage from '../assets/girl.png';
-import './Error.css';
+import './components.scss';
 
 const Error = () => {
   const navigate = useNavigate();

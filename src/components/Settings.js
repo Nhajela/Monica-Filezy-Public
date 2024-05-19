@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Select, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { LeftOutlined } from '@ant-design/icons';
-import './Settings.css';
+import './components.scss';
 
 const { Option } = Select;
 

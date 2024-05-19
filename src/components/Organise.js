@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Select, Checkbox } from 'antd';
 import { FolderOpenOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import './Organise.css';
+import './components.scss';
 
 const { Option } = Select;
 

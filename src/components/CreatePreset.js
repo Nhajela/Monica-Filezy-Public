@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input, Button, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { LeftOutlined } from '@ant-design/icons';
-import './CreatePreset.css';
+import './components.scss';
 
 const CreatePreset = () => {
   const [presetName, setPresetName] = useState('');

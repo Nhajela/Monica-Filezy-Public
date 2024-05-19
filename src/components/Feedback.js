@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input, Button, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import girlImage from '../assets/girl.png';
-import './Feedback.css';
+import './components.scss';
 
 const { TextArea } = Input;
 
@@ -12,11 +12,11 @@ const Feedback = () => {
 
   const handleSendFeedback = () => {
     if (!feedback) {
-      notification.error({
-        message: 'Error',
-        description: 'Feedback cannot be empty.',
-      });
-      return;
+    //   notification.error({
+    //     message: 'Error',
+    //     description: 'Feedback cannot be empty.',
+    //   });
+    //   return;
     }
 
     // Simulate sending feedback
@@ -28,7 +28,7 @@ const Feedback = () => {
     });
 
     // Redirect back to the organise page
-    navigate('/organise');
+    navigate('/home');
   };
 
   return (

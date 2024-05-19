@@ -3,7 +3,7 @@ import { CheckCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import girlImage from '../assets/girl.png';
 import { Button } from 'antd';
-import './Working.css';
+import './components.scss';
 
 const messages = [
   "Scanned all files",
