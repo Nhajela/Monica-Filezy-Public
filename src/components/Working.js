@@ -20,16 +20,17 @@ const Working = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { folderPath, customInstruction, backup } = location.state || {};
+  const { folderPath, backup } = location.state || {};
 
   useEffect(() => {
     const runTasks = async () => {
       try {
         // Step 1: Scan folder
         const depth = 2; // Or fetch from settings
-        const fileTree = await window.electron.scanFolder(folderPath, depth);
+        const scannedTree = await window.electron.scanFolder(folderPath, depth);
+        console.log('Scanned file tree:', scannedTree);
         setCurrentMessageIndex(0);
-        
+
         // Step 2: Backup folder if needed
         if (backup) {
           // Add your backup logic here
@@ -37,21 +38,61 @@ const Working = () => {
         }
 
         // Step 3: Get GPT Instructions
-        const systemPrompt = await window.electron.readMarkdownFile('gpt_system_prompt.md');
-        const userPrompt = `Here is the file tree:\n${JSON.stringify(fileTree, null, 2)}\n${customInstruction}`;
-        const chatMessages = [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ];
-        const instructions = await window.electron.getGPTInstructions(chatMessages);
-        setCurrentMessageIndex(2);
+        let instructions;
+        try {
+          instructions = await window.electron.getGPTInstructions(JSON.stringify(scannedTree, null, 2));
+          if (instructions) {
+            notification.success({
+              message: 'Success',
+              description: 'Instructions received successfully.',
+            });
+            console.log(instructions);
+            setCurrentMessageIndex(2);
+          } else {
+            notification.error({
+              message: 'Error',
+              description: 'Failed to get instructions.',
+            });
+            setError(true);
+            setLoading(false);
+            setShowNextButton(true);
+            return;
+          }
+        } catch (error) {
+          notification.error({
+            message: 'Error',
+            description: 'An error occurred while getting instructions.',
+          });
+          console.error('Error:', error);
+          setError(true);
+          setLoading(false);
+          setShowNextButton(true);
+          return;
+        }
 
         // Step 4: Execute Instructions
-        await window.electron.executeInstructions({
-          instructions: instructions.instruction_list,
-          basePath: folderPath
-        });
-        setCurrentMessageIndex(3);
+        try {
+          const fileInstructions = instructions['instruction_list'];
+          await window.electron.executeInstructions({
+            instructions: fileInstructions,
+            basePath: folderPath
+          });
+          notification.success({
+            message: 'Success',
+            description: 'Instructions executed successfully.',
+          });
+          setCurrentMessageIndex(3);
+        } catch (error) {
+          notification.error({
+            message: 'Error',
+            description: 'An error occurred while executing instructions.',
+          });
+          console.error('Error:', error);
+          setError(true);
+          setLoading(false);
+          setShowNextButton(true);
+          return;
+        }
 
         // Step 5: Finish
         setCurrentMessageIndex(4);
@@ -66,7 +107,7 @@ const Working = () => {
     };
 
     runTasks();
-  }, [folderPath, customInstruction, backup]);
+  }, [folderPath, backup]);
 
   const handleNext = () => {
     if (error) {

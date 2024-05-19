@@ -1,9 +1,8 @@
-const { app } = require('electron'); // Correct import for app
+const { app } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const log = require('electron-log');
 const OpenAI = require("openai");
-
 
 // Function to read a markdown file
 function readMarkdownFile(filePath) {
@@ -21,7 +20,7 @@ function readMarkdownFile(filePath) {
 // Function to get the OpenAI API key from the user's config
 function getApiKey() {
   return new Promise((resolve, reject) => {
-    const configPath = path.join(app.getPath('userData'), 'config.json'); // Correct use of app.getPath
+    const configPath = path.join(app.getPath('userData'), 'config.json');
     fs.readFile(configPath, 'utf8', (err, data) => {
       if (err) {
         reject(err);
@@ -37,8 +36,7 @@ function getApiKey() {
 async function getGPTInstructions(fileTree) {
   try {
     const apiKey = await getApiKey();
-    
-    const openai = new OpenAI({apiKey: apiKey});
+    const openai = new OpenAI({ apiKey });
 
     // Read the system prompt from the markdown file
     const systemPrompt = await readMarkdownFile(path.join(__dirname, 'gpt_system_prompt.md'));
@@ -52,7 +50,6 @@ async function getGPTInstructions(fileTree) {
       { role: 'user', content: userPrompt }
     ];
 
-    
     // Call to the OpenAI Chat Completions API
     const response = await openai.chat.completions.create({
       model: 'gpt-4-1106-preview',
@@ -102,33 +99,41 @@ function scanFolder(rootFolder, depth) {
   }
 
   const result = recursiveScan(rootFolder, 0);
-  log.info('Scanned file tree:', JSON.stringify(result, null, 2)); // Add logging here
+  log.info('Scanned file tree:', JSON.stringify(result, null, 2));
   return result;
 }
 
-// Function to execute instructions
-// Function to execute instructions
 function executeInstructions(instructions, basePath) {
+  let successfulCount = 0;
+  let failedCount = 0;
+
   for (const instruction of instructions) {
-    if (instruction.action === 'CREATE') {
-      const fullPath = path.join(basePath, instruction.path);
-      console.log(`Creating directory at: ${fullPath}`); // Add logging
-      fs.mkdirSync(fullPath, { recursive: true });
-    } else if (instruction.action === 'MOVE') {
-      const fromPath = path.join(basePath, instruction.from);
-      const toPath = path.join(basePath, instruction.to);
-      console.log(`Moving from ${fromPath} to ${toPath}`); // Add logging
-      if (!fromPath || !toPath) {
-        console.error(`Invalid path detected: fromPath=${fromPath}, toPath=${toPath}`); // Add error logging
-        continue;
+    try {
+      if (instruction.action === 'CREATE') {
+        const fullPath = path.join(basePath, instruction.path);
+        console.log(`Creating directory at: ${fullPath}`);
+        fs.mkdirSync(fullPath, { recursive: true });
+        successfulCount++;
+      } else if (instruction.action === 'MOVE') {
+        const fromPath = path.join(basePath, instruction.from);
+        const toPath = path.join(basePath, instruction.to);
+        console.log(`Moving from ${fromPath} to ${toPath}`);
+        if (!fromPath || !toPath) {
+          console.error(`Invalid path detected: fromPath=${fromPath}, toPath=${toPath}`);
+          throw new Error('Invalid path');
+        }
+        fs.renameSync(fromPath, toPath);
+        successfulCount++;
       }
-      fs.renameSync(fromPath, toPath);
+    } catch (error) {
+      console.error(`Failed to execute instruction: ${error.message}`);
+      failedCount++;
     }
   }
+
+  console.log(`Execution completed. Successful: ${successfulCount}, Failed: ${failedCount}, Total: ${instructions.length}`);
+  log.info(`Execution completed. Successful: ${successfulCount}, Failed: ${failedCount}, Total: ${instructions.length}`);
 }
-
-
-
 
 // Function to revert instructions
 function revertInstructions(instructions) {
