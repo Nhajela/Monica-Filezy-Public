@@ -107,15 +107,28 @@ function scanFolder(rootFolder, depth) {
 }
 
 // Function to execute instructions
-function executeInstructions(instructions) {
+// Function to execute instructions
+function executeInstructions(instructions, basePath) {
   for (const instruction of instructions) {
     if (instruction.action === 'CREATE') {
-      fs.mkdirSync(instruction.path, { recursive: true });
+      const fullPath = path.join(basePath, instruction.path);
+      console.log(`Creating directory at: ${fullPath}`); // Add logging
+      fs.mkdirSync(fullPath, { recursive: true });
     } else if (instruction.action === 'MOVE') {
-      fs.renameSync(instruction.from, instruction.to);
+      const fromPath = path.join(basePath, instruction.from);
+      const toPath = path.join(basePath, instruction.to);
+      console.log(`Moving from ${fromPath} to ${toPath}`); // Add logging
+      if (!fromPath || !toPath) {
+        console.error(`Invalid path detected: fromPath=${fromPath}, toPath=${toPath}`); // Add error logging
+        continue;
+      }
+      fs.renameSync(fromPath, toPath);
     }
   }
 }
+
+
+
 
 // Function to revert instructions
 function revertInstructions(instructions) {

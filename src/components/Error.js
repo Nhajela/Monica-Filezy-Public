@@ -11,23 +11,14 @@ const Error = () => {
     navigate('/');
   };
 
-  const handleSendToDevs = () => {
-    console.log('Error details sent to the devs.');
-  };
-
   return (
     <div className="error-container">
       <img src={girlImage} alt="Girl" className="girl-image" />
       <h2>Ah, something went wrong!</h2>
-      <p>error text</p>
-      <div className="button-group">
-        <Button type="primary" onClick={handleSendToDevs} className="send-button">
-          Send to the devs
-        </Button>
-        <Button type="default" onClick={handleBackHome} className="back-button">
-          Back to home
-        </Button>
-      </div>
+      <p>We're sorry for the inconvenience. Please try again.</p>
+      <Button type="primary" onClick={handleBackHome}>
+        Back to Home
+      </Button>
     </div>
   );
 };

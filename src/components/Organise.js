@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Select, Checkbox } from 'antd';
-import { FolderOpenOutlined,LeftOutlined  } from '@ant-design/icons';
+import { FolderOpenOutlined, LeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './components.scss';
 
@@ -33,6 +33,17 @@ const Organise = () => {
     } else {
       setSelectedPreset(value);
     }
+  };
+
+  const handleStart = () => {
+    const preset = presets.find(p => p.id === selectedPreset);
+    navigate('/working', {
+      state: {
+        folderPath,
+        customInstruction: preset ? preset.custom_instruction : '',
+        backup
+      }
+    });
   };
 
   return (
@@ -82,7 +93,7 @@ const Organise = () => {
         </Checkbox>
       </div>
 
-      <Button type="primary" className="start-button" onClick={()=>(navigate('/working'))}>
+      <Button type="primary" className="start-button" onClick={handleStart}>
         Start
       </Button>
     </div>

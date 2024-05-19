@@ -5,5 +5,6 @@ contextBridge.exposeInMainWorld('electron', {
   readConfig: () => ipcRenderer.invoke('read-config'),
   writeConfig: (config) => ipcRenderer.invoke('write-config', config),
   getGPTInstructions: (fileTree) => ipcRenderer.invoke('get-gpt-instructions', fileTree),
-  scanFolder: (folderPath, depth) => ipcRenderer.invoke('scan-folder', folderPath, depth)
+  scanFolder: (folderPath, depth) => ipcRenderer.invoke('scan-folder', folderPath, depth),
+  executeInstructions: (instructions) => ipcRenderer.invoke('execute-instructions', instructions)
 });

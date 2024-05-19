@@ -10,6 +10,7 @@ const TestGPT = () => {
   const [folderPath, setFolderPath] = useState('');
   const [fileTree, setFileTree] = useState(null);
   const [response, setResponse] = useState(null);
+  const [executionResult, setExecutionResult] = useState(null);
   const navigate = useNavigate();
 
   const handleFolderSelect = async () => {
@@ -66,6 +67,38 @@ const TestGPT = () => {
     }
   };
 
+  const handleExecuteInstructions = async () => {
+    if (!response) {
+      notification.error({
+        message: 'Error',
+        description: 'No instructions to execute.',
+      });
+      return;
+    }
+  
+    try {
+      const instructions = JSON.parse(response)['instruction_list']; // Correctly parse instruction_list
+      await window.electron.executeInstructions({
+        instructions,
+        basePath: folderPath // Pass the base path
+      });
+      notification.success({
+        message: 'Success',
+        description: 'Instructions executed successfully.',
+      });
+      setExecutionResult('Instructions executed successfully.');
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'An error occurred while executing instructions.',
+      });
+      console.error('Error:', error);
+      setExecutionResult('An error occurred while executing instructions.');
+    }
+  };
+  
+  
+
   return (
     <div className="test-gpt-container">
       <Button
@@ -97,6 +130,17 @@ const TestGPT = () => {
         <div>
           <h3>Response:</h3>
           <pre>{response}</pre>
+        </div>
+      )}
+      {response && (
+        <Button type="primary" onClick={handleExecuteInstructions} style={{ marginBottom: '20px' }}>
+          Execute Instructions
+        </Button>
+      )}
+      {executionResult && (
+        <div>
+          <h3>Execution Result:</h3>
+          <p>{executionResult}</p>
         </div>
       )}
     </div>
