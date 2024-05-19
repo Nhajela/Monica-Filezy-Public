@@ -1,14 +1,52 @@
 import React, { useState } from 'react';
-import { Input, Button } from 'antd';
+import { Input, Button, notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import './CreatePreset.css';
 
 const CreatePreset = () => {
   const [presetName, setPresetName] = useState('');
   const [customInstruction, setCustomInstruction] = useState('');
+  const navigate = useNavigate();
 
   const handleSavePreset = () => {
-    // Logic to save the new preset to the config.json or server
-    console.log('Preset saved:', { presetName, customInstruction });
+    if (!presetName || !customInstruction) {
+      notification.error({
+        message: 'Error',
+        description: 'Both fields are required.',
+      });
+      return;
+    }
+
+    // Simulate saving to config.json
+    fetch('/config.json')
+      .then(response => response.json())
+      .then(data => {
+        const newPreset = {
+          id: data.presets.length + 1,
+          name: presetName,
+          custom_instruction: customInstruction,
+        };
+        const updatedPresets = [...data.presets, newPreset];
+
+        // Here you would save updatedPresets to the config.json file
+        // For this example, we just log it to the console
+        console.log('Updated presets:', updatedPresets);
+
+        notification.success({
+          message: 'Success',
+          description: 'Preset saved successfully.',
+        });
+
+        // Redirect back to Organise page
+        navigate('/organise');
+      })
+      .catch(error => {
+        notification.error({
+          message: 'Error',
+          description: 'Failed to save preset.',
+        });
+        console.error('Error saving preset:', error);
+      });
   };
 
   return (
