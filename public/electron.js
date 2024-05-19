@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { readMarkdownFile, getGPTInstructions } = require('./utils');
 
 async function createWindow() {
   const isDev = (await import('electron-is-dev')).default;
@@ -52,14 +53,20 @@ ipcMain.handle('select-folder', async () => {
 });
 
 ipcMain.handle('read-config', async () => {
-    const configPath = path.join(app.getPath('userData'), 'config.json');
-    if (!fs.existsSync(configPath)) {
-      fs.writeFileSync(configPath, JSON.stringify({ presets: [], default_preset: '', apiKey: '', default_backup: false }, null, 2));
-    }
-    const data = fs.readFileSync(configPath, 'utf-8');
-    return JSON.parse(data);
-  });
+  const configPath = path.join(app.getPath('userData'), 'config.json');
+  if (!fs.existsSync(configPath)) {
+    fs.writeFileSync(configPath, JSON.stringify({ presets: [], default_preset: '', apiKey: '', default_backup: false }, null, 2));
+  }
+  const data = fs.readFileSync(configPath, 'utf-8');
+  return JSON.parse(data);
+});
+
 ipcMain.handle('write-config', async (event, config) => {
   const configPath = path.join(app.getPath('userData'), 'config.json');
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+});
+
+ipcMain.handle('get-gpt-instructions', async (event, fileTree) => {
+  const instructions = await getGPTInstructions(fileTree);
+  return instructions;
 });

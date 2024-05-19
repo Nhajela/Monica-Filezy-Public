@@ -9,7 +9,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.17.2",
+    "electron-log": "^5.1.4",
     "node-sass": "^7.0.3",
+    "openai": "^4.47.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
@@ -19,7 +21,7 @@
   "scripts": {
     "start": "concurrently \"npm run react-start\" \"npm run electron-start\"",
     "react-start": "react-scripts start",
-    "electron-start": "wait-on tcp:3000 && electron .",
+    "electron-start": " electron .",
     "build": "react-scripts build && electron-builder"
   },
   "build": {

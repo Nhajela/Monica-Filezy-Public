@@ -11,7 +11,7 @@ import './components.scss';
 const Home = () => (
   <div className="home-container">
     <img src={girlImage} alt="Girl" className="girl-image" />
-    <h1>Hi, I'm Monica Files!</h1>
+    <h1>Hi, I'm Monica Filezy!</h1>
     <p>I'll arrange your folders as if they were my folders :)</p>
     <div className="button-group">
       <Link to="/organise">
@@ -19,6 +19,9 @@ const Home = () => (
       </Link>
       <Link to="/settings">
         <Button type="default" icon={<SettingOutlined />}>Settings</Button>
+      </Link>
+      <Link to="/test-gpt">
+        <Button type="default">Test GPT</Button>
       </Link>
     </div>
     <div className="contact-dev">

@@ -1,216 +1,219 @@
 /* Shared Styles */
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.back-button {
-  position: relative;
-  top: 5%;
-  left: -250px;
-}
-
-.girl-image {
-  width: 100%;
-  max-width: 300px;
-  margin-bottom: 20px;
-}
-
-h1, h2 {
-  font-size: 24px;
-  margin: 20px 0;
-}
-
-p {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.button-group,
-.input-container,
-.select-container,
-.checkbox-container,
-.messages-container {
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 20px;
-}
-
-.button-group {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  width: 100%;
-}
-
-.ant-input,
-.ant-select,
-.ant-checkbox-wrapper {
-  width: 100%;
-}
-
-.ant-btn-primary {
-  width: 100%;
-  max-width: 400px;
-  background-color: #fadb14;
-  border-color: #fadb14;
-  color: black;
-  height: 40px;
-  font-size: 16px;
-}
-
-.ant-btn-primary:hover,
-.ant-btn-primary:focus {
-  background-color: #e6b800;
-  border-color: #e6b800;
-  color: black;
-}
-
-.ant-checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ant-checkbox + span {
-  margin-left: 8px;
-}
-
-/* Specific Component Styles */
-
-/* CreatePreset Component */
-.create-preset-container {
-  @extend .container;
-}
-
-/* Error Component */
-.error-container {
-  @extend .container;
-}
-
-.send-button {
-  background-color: #fadb14;
-  border-color: #fadb14;
-  color: black;
-
-  &:hover,
-  &:focus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     background: url('../assets/background.svg') repeat center center;
+ 
+  }
+  
+  .back-button {
+    position: relative;
+    top: 5%;
+    left: -250px;
+  }
+  
+  .girl-image {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  h1, h2 {
+    font-size: 24px;
+    margin: 20px 0;
+  }
+  
+  p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .button-group,
+  .input-container,
+  .select-container,
+  .checkbox-container,
+  .messages-container {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .ant-input,
+  .ant-select,
+  .ant-checkbox-wrapper {
+    width: 100%;
+  }
+  
+  .ant-btn-primary {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fadb14;
+    border-color: #fadb14;
+    color: black;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .ant-btn-primary:hover,
+  .ant-btn-primary:focus {
     background-color: #e6b800;
     border-color: #e6b800;
     color: black;
   }
-}
-
-.back-button {
-  border-color: #fadb14;
-  color: #fadb14;
-
-  &:hover,
-  &:focus {
-    border-color: #e6b800;
-    color: #e6b800;
+  
+  .ant-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-}
-
-/* Feedback Component */
-.feedback-container {
-  @extend .container;
-}
-
-.send-feedback-button {
-  width: 200px;
-  background-color: #fadb14;
-  border-color: #fadb14;
-  color: black;
-
-  &:hover,
-  &:focus {
-    background-color: #e6b800;
-    border-color: #e6b800;
+  
+  .ant-checkbox + span {
+    margin-left: 8px;
+  }
+  
+  /* Specific Component Styles */
+  
+  /* CreatePreset Component */
+  .create-preset-container {
+    @extend .container;
+  }
+  
+  /* Error Component */
+  .error-container {
+    @extend .container;
+  }
+  
+  .send-button {
+    background-color: #fadb14;
+    border-color: #fadb14;
     color: black;
+  
+    &:hover,
+    &:focus {
+      background-color: #e6b800;
+      border-color: #e6b800;
+      color: black;
+    }
   }
-}
-
-/* Finished Component */
-.finished-container {
-  @extend .container;
-}
-
-.feedback-button {
-  width: 200px;
-  background-color: #fadb14;
-  border-color: #fadb14;
-  color: black;
-
-  &:hover,
-  &:focus {
-    background-color: #e6b800;
-    border-color: #e6b800;
+  
+  .back-button {
+    border-color: #fadb14;
+    color: #fadb14;
+  
+    &:hover,
+    &:focus {
+      border-color: #e6b800;
+      color: #e6b800;
+    }
+  }
+  
+  /* Feedback Component */
+  .feedback-container {
+    @extend .container;
+  }
+  
+  .send-feedback-button {
+    width: 200px;
+    background-color: #fadb14;
+    border-color: #fadb14;
     color: black;
+  
+    &:hover,
+    &:focus {
+      background-color: #e6b800;
+      border-color: #e6b800;
+      color: black;
+    }
   }
-}
-
-/* Home Component */
-.home-container {
-  @extend .container;
-  background: url('../assets/background.svg') repeat center center;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-}
-
-.contact-dev {
-  margin-top: 20px;
-}
-
-/* Organise Component */
-.organise-container {
-  @extend .container;
-}
-
-.start-button {
-  width: 100%;
-  max-width: 400px;
-  background-color: #fadb14;
-  border-color: #fadb14;
-  color: black;
-  height: 40px;
-  font-size: 16px;
-
-  &:hover,
-  &:focus {
-    background-color: #e6b800;
-    border-color: #e6b800;
+  
+  /* Finished Component */
+  .finished-container {
+    @extend .container;
+  }
+  
+  .feedback-button {
+    width: 200px;
+    background-color: #fadb14;
+    border-color: #fadb14;
     color: black;
+  
+    &:hover,
+    &:focus {
+      background-color: #e6b800;
+      border-color: #e6b800;
+      color: black;
+    }
   }
-}
-
-/* Settings Component */
-.settings-container {
-  @extend .container;
-}
-
-/* Working Component */
-.working-container {
-  @extend .container;
-}
-
-.message {
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.icon {
-  color: green;
-  margin-right: 10px;
-}
+  
+  /* Home Component */
+  .home-container {
+    @extend .container;
+    background: url('../assets/background.svg') repeat center center;
+  }
+  
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .contact-dev {
+    margin-top: 20px;
+  }
+  
+  /* Organise Component */
+  .organise-container {
+    @extend .container;
+  }
+  
+  .start-button {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fadb14;
+    border-color: #fadb14;
+    color: black;
+    height: 40px;
+    font-size: 16px;
+  
+    &:hover,
+    &:focus {
+      background-color: #e6b800;
+      border-color: #e6b800;
+      color: black;
+    }
+  }
+  
+  /* Settings Component */
+  .settings-container {
+    @extend .container;
+  }
+  
+  /* Working Component */
+  .working-container {
+    @extend .container;
+  }
+  
+  .message {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .icon {
+    color: green;
+    margin-right: 10px;
+  }
+  
