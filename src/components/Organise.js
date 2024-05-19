@@ -65,7 +65,6 @@ const Organise = () => {
           readOnly
         />
       </div>
-
       <h2>Choose your instructions preset</h2>
       <div className="select-container">
         <Select
@@ -83,7 +82,6 @@ const Organise = () => {
           </Option>
         </Select>
       </div>
-
       <div className="checkbox-container">
         <Checkbox
           checked={backup}
@@ -92,7 +90,6 @@ const Organise = () => {
           Take a backup of the folder
         </Checkbox>
       </div>
-
       <Button type="primary" className="start-button" onClick={handleStart}>
         Start
       </Button>

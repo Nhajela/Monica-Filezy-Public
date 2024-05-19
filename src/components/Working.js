@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-import girlImage from '../assets/girl.png';
 import { Button, Spin, notification } from 'antd';
+import girlImage from '../assets/girl.png';
 import './components.scss';
 
 const messages = [
