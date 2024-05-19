@@ -43,38 +43,43 @@ const Organise = () => {
   return (
     <div className="organise-container">
       <h2>Choose your folder</h2>
-      <Input
-        value={folderPath}
-        placeholder="Select your folder"
-        prefix={<FolderOpenOutlined onClick={handleFolderSelect} />}
-        readOnly
-      />
+      <div className="input-container">
+        <Input
+          value={folderPath}
+          placeholder="Select your folder"
+          suffix={<FolderOpenOutlined onClick={handleFolderSelect} />}
+          readOnly
+        />
+      </div>
 
       <h2>Choose your instructions preset</h2>
-      <Select
-        value={selectedPreset}
-        onChange={handlePresetChange}
-        style={{ width: '100%' }}
-      >
-        {presets.map(preset => (
-          <Option key={preset.id} value={preset.id}>
-            {preset.name}
+      <div className="select-container">
+        <Select
+          value={selectedPreset}
+          onChange={handlePresetChange}
+          style={{ width: '100%' }}
+        >
+          {presets.map(preset => (
+            <Option key={preset.id} value={preset.id}>
+              {preset.name}
+            </Option>
+          ))}
+          <Option key="create_new" value="create_new">
+            Create new preset
           </Option>
-        ))}
-        <Option key="create_new" value="create_new">
-          Create new preset
-        </Option>
-      </Select>
+        </Select>
+      </div>
 
-      <Checkbox
-        checked={backup}
-        onChange={e => setBackup(e.target.checked)}
-        style={{ marginTop: '20px' }}
-      >
-        Take a backup of the folder
-      </Checkbox>
+      <div className="checkbox-container">
+        <Checkbox
+          checked={backup}
+          onChange={e => setBackup(e.target.checked)}
+        >
+          Take a backup of the folder
+        </Checkbox>
+      </div>
 
-      <Button type="primary" style={{ marginTop: '20px' }}>
+      <Button type="primary" className="start-button">
         Start
       </Button>
     </div>

@@ -1,5 +1,5 @@
-/* Organise.css */
-.organise-container {
+/* Settings.css */
+.settings-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,33 +10,24 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
+  .back-button {
+    position: relative;
+    top: 5%;
+    left: -250px;
+}
+  
   h2 {
     font-size: 24px;
     margin: 20px 0;
   }
   
-  .input-container, .select-container, .checkbox-container {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
-  }
-  
   .ant-input, .ant-select {
     width: 100%;
-  }
-
-
-  .ant-checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    max-width: 400px;
+    margin-bottom: 10px;
   }
   
-  .ant-checkbox + span {
-    margin-left: 8px;
-  }
-  
-  .start-button {
+  .ant-btn-primary {
     width: 100%;
     max-width: 400px;
     background-color: #fadb14;
@@ -46,10 +37,9 @@
     font-size: 16px;
   }
   
-  .start-button:hover, .start-button:focus {
+  .ant-btn-primary:hover, .ant-btn-primary:focus {
     background-color: #e6b800;
     border-color: #e6b800;
     color: black;
   }
   
-

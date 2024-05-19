@@ -1,0 +1,55 @@
+/* Error.css */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .girl-image {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .send-button {
+    background-color: #fadb14;
+    border-color: #fadb14;
+    color: black;
+  }
+  
+  .send-button:hover, .send-button:focus {
+    background-color: #e6b800;
+    border-color: #e6b800;
+    color: black;
+  }
+  
+  .back-button {
+    border-color: #fadb14;
+    color: #fadb14;
+  }
+  
+  .back-button:hover, .back-button:focus {
+    border-color: #e6b800;
+    color: #e6b800;
+  }
+  

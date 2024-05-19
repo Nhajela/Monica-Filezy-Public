@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { LeftOutlined } from '@ant-design/icons';
 import './CreatePreset.css';
 
 const CreatePreset = () => {
@@ -51,6 +52,14 @@ const CreatePreset = () => {
 
   return (
     <div className="create-preset-container">
+      <Button
+        type="link"
+        icon={<LeftOutlined />}
+        onClick={() => navigate(-1)}
+        className="back-button"
+      >
+        Back
+      </Button>
       <h2>Create New Preset</h2>
       <Input
         value={presetName}
