@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Select, notification } from 'antd';
+import { Input, Button, Select, notification, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { LeftOutlined } from '@ant-design/icons';
+import { LeftOutlined, DeleteOutlined } from '@ant-design/icons';
 import './components.scss';
 
 const { Option } = Select;
@@ -14,15 +14,14 @@ const Settings = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load settings from config.json
-    fetch('/config.json')
-      .then(response => response.json())
-      .then(data => {
-        setApiKey(data.apiKey || '');
-        setPresets(data.presets || []);
-        setDefaultPreset(data.default_preset || '');
-        setDefaultBackup(data.default_backup ? 'yes' : 'no');
-      });
+    window.electron.readConfig().then(config => {
+      setApiKey(config.apiKey || '');
+      setPresets(config.presets || []);
+      setDefaultPreset(config.default_preset || '');
+      setDefaultBackup(config.default_backup ? 'yes' : 'no');
+    }).catch(error => {
+      console.error('Error reading config:', error);
+    });
   }, []);
 
   const handleSaveSettings = () => {
@@ -36,36 +35,63 @@ const Settings = () => {
 
     const backupBoolean = defaultBackup === 'yes';
 
-    // Simulate saving to config.json
-    fetch('/config.json') // In Electron, replace with fs.readFileSync
-      .then(response => response.json())
-      .then(data => {
-        const updatedConfig = {
-          ...data,
-          apiKey,
-          default_preset: defaultPreset,
-          default_backup: backupBoolean,
-        };
+    window.electron.readConfig().then(config => {
+      const updatedConfig = {
+        ...config,
+        apiKey,
+        default_preset: defaultPreset,
+        default_backup: backupBoolean,
+      };
 
-        // Here you would save updatedConfig to the config.json file
-        // In Electron, replace with fs.writeFileSync
-        console.log('Updated config:', updatedConfig);
+      window.electron.writeConfig(updatedConfig);
 
-        notification.success({
-          message: 'Success',
-          description: 'Settings saved successfully.',
-        });
-
-        // Navigate back to the previous page
-        navigate(-1);
-      })
-      .catch(error => {
-        notification.error({
-          message: 'Error',
-          description: 'Failed to save settings.',
-        });
-        console.error('Error saving settings:', error);
+      notification.success({
+        message: 'Success',
+        description: 'Settings saved successfully.',
       });
+
+      navigate(-1);
+    }).catch(error => {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to save settings.',
+      });
+      console.error('Error saving settings:', error);
+    });
+  };
+
+  const handleDeletePreset = (presetId) => {
+    Modal.confirm({
+      title: 'Confirm Deletion',
+      content: 'Are you sure you want to delete this preset?',
+      onOk: () => {
+        window.electron.readConfig().then(config => {
+          const updatedPresets = config.presets.filter(preset => preset.id !== presetId);
+          const updatedConfig = {
+            ...config,
+            presets: updatedPresets,
+          };
+
+          window.electron.writeConfig(updatedConfig);
+          setPresets(updatedPresets);
+
+          if (defaultPreset === presetId) {
+            setDefaultPreset('');
+          }
+
+          notification.success({
+            message: 'Success',
+            description: 'Preset deleted successfully.',
+          });
+        }).catch(error => {
+          notification.error({
+            message: 'Error',
+            description: 'Failed to delete preset.',
+          });
+          console.error('Error deleting preset:', error);
+        });
+      }
+    });
   };
 
   return (
@@ -93,9 +119,12 @@ const Settings = () => {
       >
         {presets.map(preset => (
           <Option key={preset.id} value={preset.id}>
-            {preset.name}
+            {preset.name} <DeleteOutlined onClick={() => handleDeletePreset(preset.id)} />
           </Option>
         ))}
+        <Option key="create_new" value="create_new">
+          Create new preset
+        </Option>
       </Select>
 
       <h2>Default take a backup</h2>

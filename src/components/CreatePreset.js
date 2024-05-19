@@ -18,36 +18,29 @@ const CreatePreset = () => {
       return;
     }
 
-    // Simulate saving to config.json
-    fetch('/config.json')
-      .then(response => response.json())
-      .then(data => {
-        const newPreset = {
-          id: data.presets.length + 1,
-          name: presetName,
-          custom_instruction: customInstruction,
-        };
-        const updatedPresets = [...data.presets, newPreset];
+    window.electron.readConfig().then(data => {
+      const newPreset = {
+        id: data.presets.length + 1,
+        name: presetName,
+        custom_instruction: customInstruction,
+      };
+      const updatedPresets = [...data.presets, newPreset];
 
-        // Here you would save updatedPresets to the config.json file
-        // For this example, we just log it to the console
-        console.log('Updated presets:', updatedPresets);
+      window.electron.writeConfig({ ...data, presets: updatedPresets });
 
-        notification.success({
-          message: 'Success',
-          description: 'Preset saved successfully.',
-        });
-
-        // Redirect back to Organise page
-        navigate('/organise');
-      })
-      .catch(error => {
-        notification.error({
-          message: 'Error',
-          description: 'Failed to save preset.',
-        });
-        console.error('Error saving preset:', error);
+      notification.success({
+        message: 'Success',
+        description: 'Preset saved successfully.',
       });
+
+      navigate('/organise');
+    }).catch(error => {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to save preset.',
+      });
+      console.error('Error saving preset:', error);
+    });
   };
 
   return (

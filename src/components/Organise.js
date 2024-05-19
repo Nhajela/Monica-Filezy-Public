@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Select, Checkbox } from 'antd';
-import { FolderOpenOutlined } from '@ant-design/icons';
+import { FolderOpenOutlined,LeftOutlined  } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './components.scss';
 
@@ -14,19 +14,14 @@ const Organise = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load presets from config.json
-    fetch('/config.json')
-      .then(response => response.json())
-      .then(data => {
-        setPresets(data.presets);
-        setSelectedPreset(data.default_preset);
-      });
+    window.electron.readConfig().then(config => {
+      setPresets(config.presets);
+      setSelectedPreset(config.default_preset);
+    });
   }, []);
 
-  const handleFolderSelect = () => {
-    // For Electron, use dialog to select folder
-    // For web, you can use a file input or leave it as text input
-    const folder = window.prompt('Select folder');
+  const handleFolderSelect = async () => {
+    const folder = await window.electron.selectFolder();
     if (folder) {
       setFolderPath(folder);
     }
@@ -42,6 +37,14 @@ const Organise = () => {
 
   return (
     <div className="organise-container">
+      <Button
+        type="link"
+        icon={<LeftOutlined />}
+        onClick={() => navigate(-1)}
+        className="back-button"
+      >
+        Back
+      </Button>
       <h2>Choose your folder</h2>
       <div className="input-container">
         <Input
@@ -79,7 +82,7 @@ const Organise = () => {
         </Checkbox>
       </div>
 
-      <Button type="primary" className="start-button">
+      <Button type="primary" className="start-button" onClick={()=>(navigate('/working'))}>
         Start
       </Button>
     </div>

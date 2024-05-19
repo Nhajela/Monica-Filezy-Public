@@ -12,14 +12,13 @@ const Feedback = () => {
 
   const handleSendFeedback = () => {
     if (!feedback) {
-    //   notification.error({
-    //     message: 'Error',
-    //     description: 'Feedback cannot be empty.',
-    //   });
-    //   return;
+      notification.error({
+        message: 'Error',
+        description: 'Feedback cannot be empty.',
+      });
+      return;
     }
 
-    // Simulate sending feedback
     console.log('Feedback sent:', feedback);
 
     notification.success({
@@ -27,8 +26,7 @@ const Feedback = () => {
       description: 'Thank you for your feedback!',
     });
 
-    // Redirect back to the organise page
-    navigate('/home');
+    navigate('/');
   };
 
   return (

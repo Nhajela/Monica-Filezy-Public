@@ -30,7 +30,7 @@ const Working = () => {
           return prevIndex;
         }
       });
-    }, 2000); // Change the interval time as needed
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);

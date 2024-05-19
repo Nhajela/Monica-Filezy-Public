@@ -12,7 +12,6 @@ const Error = () => {
   };
 
   const handleSendToDevs = () => {
-    // Simulate sending error details to the devs
     console.log('Error details sent to the devs.');
   };
 

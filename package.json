@@ -2,6 +2,7 @@
   "name": "ai-file-organizer",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "@testing-library/jest-dom": "^5.17.0",
@@ -15,12 +16,6 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  // "scripts": {
-  //   "start": "react-scripts start",
-  //   "build": "react-scripts build",
-  //   "test": "react-scripts test",
-  //   "eject": "react-scripts eject"
-  // },
   "scripts": {
     "start": "concurrently \"npm run react-start\" \"npm run electron-start\"",
     "react-start": "react-scripts start",
@@ -38,7 +33,8 @@
     },
     "win": {
       "target": "nsis"
-    },
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -61,6 +57,7 @@
     "concurrently": "^8.2.2",
     "electron": "^30.0.6",
     "electron-builder": "^24.13.3",
+    "electron-is-dev": "^3.0.1",
     "wait-on": "^7.2.0"
   }
 }

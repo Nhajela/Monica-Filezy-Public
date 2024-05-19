@@ -1,16 +1,17 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
-const isDev = require('electron-is-dev');
 const fs = require('fs');
 
-function createWindow() {
-  const win = new BrowserWindow({
+async function createWindow() {
+  const isDev = (await import('electron-is-dev')).default;
+
+  let win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false, // Ensure this is set to false for security reasons
+      contextIsolation: true,  // Enable contextIsolation
     },
   });
 
@@ -23,6 +24,10 @@ function createWindow() {
   if (isDev) {
     win.webContents.openDevTools();
   }
+
+  win.on('closed', () => {
+    win = null;
+  });
 }
 
 app.on('ready', createWindow);
@@ -39,7 +44,6 @@ app.on('activate', () => {
   }
 });
 
-// IPC handlers for config and file selector
 ipcMain.handle('select-folder', async () => {
   const result = await dialog.showOpenDialog({
     properties: ['openDirectory'],
@@ -48,14 +52,13 @@ ipcMain.handle('select-folder', async () => {
 });
 
 ipcMain.handle('read-config', async () => {
-  const configPath = path.join(app.getPath('userData'), 'config.json');
-  if (!fs.existsSync(configPath)) {
-    fs.writeFileSync(configPath, JSON.stringify({ presets: [], default_preset: '', apiKey: '', default_backup: false }, null, 2));
-  }
-  const data = fs.readFileSync(configPath, 'utf-8');
-  return JSON.parse(data);
-});
-
+    const configPath = path.join(app.getPath('userData'), 'config.json');
+    if (!fs.existsSync(configPath)) {
+      fs.writeFileSync(configPath, JSON.stringify({ presets: [], default_preset: '', apiKey: '', default_backup: false }, null, 2));
+    }
+    const data = fs.readFileSync(configPath, 'utf-8');
+    return JSON.parse(data);
+  });
 ipcMain.handle('write-config', async (event, config) => {
   const configPath = path.join(app.getPath('userData'), 'config.json');
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
